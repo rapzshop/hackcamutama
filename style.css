@@ -2,26 +2,41 @@ body {
         font-family: Arial, sans-serif;
         background: linear-gradient(135deg, #4f46e5, #9333ea);
         color: white;
-        height: 100vh;
+        min-height: 100vh;
         padding: 20px;
     }
     .card {
         background: rgba(255,255,255,0.15);
         padding: 20px;
         border-radius: 20px;
-        backdrop-filter: blur(10px);
-        max-width: 600px;
+        max-width: 700px;
         margin: auto;
-        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+    }
+    .device-box {
+        background: rgba(0,0,0,0.2);
+        padding: 12px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .device-box:hover {
+        background: rgba(0,0,0,0.35);
     }
     button {
         padding: 10px 18px;
         border-radius: 10px;
         border: none;
         cursor: pointer;
-        margin-right: 10px;
+        margin: 5px;
         background: #22c55e;
         color: white;
+    }
+    video {
+        width: 100%;
+        margin-top: 15px;
+        border-radius: 12px;
     }
     video {
         width: 100%;
