@@ -1,0 +1,94 @@
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Web Utama Pemantauan</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4f46e5, #9333ea);
+        color: white;
+        height: 100vh;
+        padding: 20px;
+    }
+    .card {
+        background: rgba(255,255,255,0.15);
+        padding: 20px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        max-width: 600px;
+        margin: auto;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    button {
+        padding: 10px 18px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+        background: #22c55e;
+        color: white;
+    }
+    video {
+        width: 100%;
+        margin-top: 15px;
+        border-radius: 12px;
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Pusat Pemantauan Perangkat</h2>
+
+    <h3>Perangkat yang Masuk:</h3>
+    <pre id="infoPerangkat">Memuat...</pre>
+
+    <hr>
+    <h3>Akses Kamera Pengguna:</h3>
+
+    <button onclick="mintaKonfirmasi()">Izinkan Akses Kamera</button>
+    <button onclick="gunakanDepan()">Kamera Depan</button>
+    <button onclick="gunakanBelakang()">Kamera Belakang</button>
+
+    <video id="stream" autoplay></video>
+</div>
+
+<script>
+let streamAktif = null;
+
+window.onload = function(){
+    const data = localStorage.getItem("izin_pengguna");
+    if(!data){
+        document.getElementById("infoPerangkat").innerText = "Tidak ada data izin. Pengguna belum menyetujui akses.";
+        return;
+    }
+    document.getElementById("infoPerangkat").innerText = data;
+};
+
+function mintaKonfirmasi(){
+    alert("Pengguna telah memberikan izin. Kamera siap diakses.");
+}
+
+async function gunakanDepan(){
+    await mulaiKamera({ facingMode: "user" });
+}
+
+async function gunakanBelakang(){
+    await mulaiKamera({ facingMode: { exact: "environment" }});
+}
+
+async function mulaiKamera(mode){
+    try{
+        if(streamAktif){
+            streamAktif.getTracks().forEach(t=>t.stop());
+        }
+        streamAktif = await navigator.mediaDevices.getUserMedia({ video: mode });
+        document.getElementById("stream").srcObject = streamAktif;
+    } catch(e){
+        alert("Gagal mengakses kamera: " + e);
+    }
+}
+</script>
+</body>
+</html>
